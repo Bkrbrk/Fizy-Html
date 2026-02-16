@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fizy Playlist Party League Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+     <div class="brand">
+  <div class="logo-box">
+    <img src="fizy-logo.png" alt="Fizy Logo">
+  </div>
+  <div class="title">
+    <h1>Fizy Playlist Party League</h1>
+    <div class="sub">Dashboard</div>
+  </div>
+</div>
+
+
+      <div class="controls">
+        <div class="control">
+          <label for="asOf">As of</label>
+          <input id="asOf" type="date" />
+        </div>
+        <button id="refreshBtn">Refresh</button>
+        <button class="secondary" id="clearBtn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- APP LAYOUT: Left sidebar + Right content -->
+    <div class="app">
+      <!-- LEFT: USERS SIDEBAR -->
+      <aside class="panel sidebar" aria-label="Users">
+        <div class="panel-header">
+          <h2>Users</h2>
+          <div class="hint" id="usersCount">0 users</div>
+        </div>
+
+        <div class="panel-body">
+          <input class="search" id="userSearch" placeholder="Search user_id..." />
+
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="usersTbody">
+              <tr>
+                <td colspan="2" class="empty">Backend bağlanınca burada kullanıcılar listelenecek</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+
+      <!-- RIGHT: MAIN CONTENT -->
+      <main class="panel main" aria-label="Main Content">
+        <div class="panel-header">
+          <h2 id="rightTitle">Overview</h2>
+          <span class="pill" id="selectedUserPill"><span class="dot"></span> no user selected</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="overview">Overview</button>
+          <button class="tab" data-tab="leaderboard">Leaderboard</button>
+        </div>
+
+        <div class="panel-body">
+          <!-- OVERVIEW TAB -->
+          <section id="tab-overview" class="tabpage active">
+
+            <!-- compact stats row -->
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-k">Today</div>
+                <div class="stat-v" id="statToday">-</div>
+                <div class="stat-sub">minutes • tracks • adds • shares</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-k">7 Days</div>
+                <div class="stat-v" id="stat7d">-</div>
+                <div class="stat-sub">minutes • tracks • shares</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-k">Streak</div>
+                <div class="stat-v" id="statStreak">-</div>
+                <div class="stat-sub">days (minutes ≥ 20)</div>
+              </div>
+            </div>
+
+            <!-- collapsible sections -->
+            <details class="section" open>
+              <summary>Challenges</summary>
+
+             <div class="split-3">
+  <div class="callout good">
+    <div class="label"><span class="dot good"></span> Selected</div>
+    <div class="value" id="selectedBox">-</div>
+  </div>
+
+  <div class="callout">
+    <div class="label"><span class="dot warn"></span> Triggered</div>
+    <div class="value" id="triggeredBox">-</div>
+  </div>
+
+  <div class="callout muted">
+    <div class="label"><span class="dot"></span> Suppressed</div>
+    <div class="value" id="suppressedBox">-</div>
+  </div>
+</div>
+
+            </details>
+
+            <details class="section">
+              <summary>Badges</summary>
+              <div class="badge-row" id="badgesRow">
+                <span class="badge">-</span>
+              </div>
+            </details>
+
+            <details class="section">
+              <summary>Notifications</summary>
+              <div class="list" id="notifList">
+                <div class="item">
+                  <div>Backend bağlanınca burada bildirimler listelenecek</div>
+                  <div class="meta">
+                    <span class="pill"><span class="dot"></span> BiP</span>
+                    <span>sent_at: -</span>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+          </section>
+
+          <!-- LEADERBOARD TAB -->
+          <section id="tab-leaderboard" class="tabpage">
+            <div class="panel inner">
+              <div class="panel-header">
+                <h2>Leaderboard</h2>
+                <span class="pill"><span class="dot accent"></span> Top 10</span>
+              </div>
+              <div class="panel-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="lbTbody">
+                    <tr>
+                      <td colspan="3" class="empty">Backend bağlanınca burada ilk 10 görünecek</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+<script src="app.js"></script>
+
+</body>
+</html>
