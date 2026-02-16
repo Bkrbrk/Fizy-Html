@@ -41,55 +41,54 @@ function hide(el){ el.classList.add("hidden"); }
   });
 
   // ===== Mock data sources (later swap to fetch) =====
-  async function getUsers() {
-    return [
-      { user_id: "Kullanıcı1", total_points: 820 },
-      { user_id: "Kullanıcı2", total_points: 450 },
-      { user_id: "Kullanıcı3", total_points: 1200 },
-    ];
-  }
+  async function apiGet(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error(`API ${res.status}`);
+  return res.json();
+}
 
-  async function getUserDetail(userId) {
-    // userId parametresi backend geldiğinde gerçekten kullanılacak
-    return {
-      state: {
-        today: {
-          listen_minutes_today: 45,
-          unique_tracks_today: 12,
-          playlist_additions_today: 3,
-          shares_today: 2,
-        },
-        d7: {
-          listen_minutes_7d: 520,
-          unique_tracks_7d: 70,
-          shares_7d: 8,
-        },
-        streak: 4,
-      },
-      challenges: {
-        triggered: ["Günlük Dinleme", "Paylaşım Bonus"],
-        selected: "Günlük Dinleme",
-        suppressed: ["Paylaşım Bonus"],
-      },
-      badges: ["Bronz Dinleyici"],
-      notifications: [
-        {
-          message: "Günlük Dinleme görevini tamamladın",
-          sent_at: "2026-02-16",
-          channel: "BiP",
-        },
-      ],
-    };
-  }
+async function getUsers(){
+  
+  return apiGet("/api/users");
+}
 
-  async function getLeaderboard(asOfDate) {
-    // asOfDate parametresi backend geldiğinde gerçekten kullanılacak
-    return [
-      { rank: 1, user_id: "Kullanıcı3", total_points: 1200 },
-      { rank: 2, user_id: "Kullanıcı1", total_points: 820 },
-      { rank: 3, user_id: "Kullanıcı2", total_points: 450 },
-    ];
-  }
+async function getUserDetail(userId){
+  const raw = await apiGet(`/api/user/${encodeURIComponent(userId)}`);
+  const s = raw.state || {};
+
+  return {
+    state: {
+      today: {
+        listen_minutes_today: s.listen_minutes_today ?? 0,
+        unique_tracks_today: s.unique_tracks_today ?? 0,
+        playlist_additions_today: s.playlist_additions_today ?? 0,
+        shares_today: s.shares_today ?? 0,
+      },
+      d7: {
+        listen_minutes_7d: s.listen_minutes_7d ?? 0,
+        unique_tracks_7d: s.unique_tracks_7d ?? 0,
+        shares_7d: s.shares_7d ?? 0,
+      },
+      streak: s.listen_streak_days ?? s.streak ?? 0,
+    },
+    challenges: {
+      triggered: (raw.awards || []).flatMap(a => a.triggered_challenges || []),
+      selected: (raw.awards || [])[0]?.selected_challenge || "-",
+      suppressed: (raw.awards || []).flatMap(a => a.suppressed_challenges || []),
+    },
+    badges: (raw.badges || []).map(b => b.badge_id || b.badge || String(b)),
+    notifications: (raw.notifs || []).map(n => ({
+      message: n.message,
+      sent_at: (n.sent_at || "").toString().slice(0,10),
+      channel: n.channel || "BiP",
+    })),
+  };
+}
+
+
+async function getLeaderboard(asOfDate){
+  return apiGet("/api/leaderboard");
+}
 
   // ===== Render =====
  function renderUsers(users) {
