@@ -8,6 +8,10 @@
 </head>
 <body>
 
+    <div id="leaderboardLoading" class="loading hidden">
+  Yükleniyor...
+</div>
+
   <div class="topbar">
     <div class="topbar-inner">
      <div class="brand">
@@ -43,7 +47,7 @@
         </div>
 
         <div class="panel-body">
-          <input class="search" id="userSearch" placeholder="Search user_id..." />
+          <input class="search" id="userSearch" placeholder="Kullanıcı Ara" />
 
           <table>
             <thead>
@@ -71,10 +75,14 @@
         <!-- Tabs -->
         <div class="tabs">
           <button class="tab active" data-tab="overview">Genel Bakış</button>
-          <button class="tab" data-tab="Liderlik Tablosu">Liderlik Tablosu</button>
+          <button class="tab" data-tab="leaderboard">Liderlik Tablosu</button>
         </div>
 
         <div class="panel-body">
+            <div id="detailLoading" class="loading hidden">
+  Yükleniyor...
+</div>
+
           <!-- OVERVIEW TAB -->
           <section id="tab-overview" class="tabpage active">
 
@@ -83,7 +91,9 @@
               <div class="stat">
                 <div class="stat-k">Günlük</div>
                 <div class="stat-v" id="statToday">-</div>
-                <div class="stat-sub">Dakikalar • Parçalar • Eklenen Şarkılar • Paylaşılan</div>
+                <div class="stat-sub">Dakikalar • Parçalar 
+                    <br>
+                    Eklenen Şarkılar • Paylaşılan</div>
               </div>
 
               <div class="stat">
@@ -156,8 +166,8 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>User</th>
-                      <th>Total</th>
+                      <th>Kullanıcı</th>
+                      <th>Toplam</th>
                     </tr>
                   </thead>
                   <tbody id="lbTbody">

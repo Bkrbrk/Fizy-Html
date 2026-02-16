@@ -299,8 +299,6 @@ tr.active td:first-child{
   border-color: rgba(30,120,255,.35);
   background: rgba(30,120,255,.12);
 }
-.tabpage{ display:none; }
-.tabpage.active{ display:block; }
 
 /* STATS */
 .stats{
@@ -471,4 +469,40 @@ tr.active td:first-child{
   opacity:.45;
   background: rgba(255,255,255,.30);
   border-style:dashed;
+}
+
+.loading{
+  padding:12px;
+  text-align:center;
+  font-weight:700;
+  font-size:14px;
+  color:var(--accent);
+}
+
+.hidden{
+  display:none;
+}
+
+.tabpage{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .25s ease, transform .25s ease;
+  visibility:hidden;
+  position:absolute;
+  width:100%;
+}
+
+.tabpage.active{
+  opacity:1;
+  transform:translateY(0);
+  visibility:visible;
+  position:relative;
+}
+
+.panel-body{
+  transition:opacity .15s ease;
+}
+
+.panel-body.loading{
+  opacity:.5;
 }
